@@ -1,3 +1,6 @@
 {
-	"extends": "@wordpress/stylelint-config/scss"
+	"extends": "@wordpress/stylelint-config/scss",
+	"rules": {
+		"no-empty-first-line": null
+	}
 }

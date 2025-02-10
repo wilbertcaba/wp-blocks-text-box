@@ -15,13 +15,8 @@ import {
 	useBlockProps,
 	RichText,
 	BlockControls,
+	AlignmentToolbar,
 } from '@wordpress/block-editor';
-
-import {
-	ToolbarGroup,
-	ToolbarButton,
-	ToolbarDropdownMenu,
-} from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -41,74 +36,33 @@ import './editor.scss';
  */
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { text } = attributes;
+	const { text, alignment } = attributes;
+
+	const onChangeText = ( newText ) => {
+		setAttributes( { text: newText } );
+	};
+
+	const onChangeAlignment = ( newAlignment ) => {
+		setAttributes( { alignment: newAlignment } );
+	};
 
 	return (
 		<>
-			<BlockControls group="inline">
-				<p>Inline Controls</p>
-			</BlockControls>
-
 			<BlockControls group="block">
-				<p>Block Controls</p>
+				<AlignmentToolbar
+					onChange={ onChangeAlignment }
+					value={ alignment }
+				/>
 			</BlockControls>
 
-			{ text && (
-				<BlockControls
-					group="other"
-					controls={ [
-						{
-							title: 'Button 1',
-							icon: 'admin-generic',
-							isActive: true,
-							onClick: () => console.log( 'Button 1 Clicked' ),
-						},
-						{
-							title: 'Button 2',
-							icon: 'admin-collapse',
-							onClick: () => console.log( 'Button 2 Clicked' ),
-						},
-					] }
-				>
-					<ToolbarGroup>
-						<ToolbarButton
-							title="Align Left"
-							icon="editor-alignleft"
-							onClick={ () => console.log( 'Align Left' ) }
-						/>
-						<ToolbarButton
-							title="Align Center"
-							icon="editor-aligncenter"
-							onClick={ () => console.log( 'Align Center' ) }
-						/>
-						<ToolbarButton
-							title="Align Right"
-							icon="editor-alignright"
-							onClick={ () => console.log( 'Align Right' ) }
-						/>
-						<ToolbarDropdownMenu
-							icon="arrow-down-alt2"
-							label={ __( 'More Alignments', 'text-block' ) }
-							controls={ [
-								{
-									title: __( 'Wide', 'text-block' ),
-									icon: 'align-wide',
-								},
-								{
-									title: __( 'Full', 'text-block' ),
-									icon: 'align-full-width',
-								},
-							] }
-						/>
-					</ToolbarGroup>
-				</BlockControls>
-			) }
 			<RichText
-				{ ...useBlockProps() }
+				{ ...useBlockProps( {
+					className: `text-box-align-${ alignment }`,
+				} ) }
 				placeholder={ __( 'Add some text', 'text-block' ) }
 				tagName="h4"
 				allowedFormats={ [] }
-				onChange={ ( value ) => setAttributes( { text: value } ) }
+				onChange={ onChangeText }
 				value={ text }
 			/>
 		</>
