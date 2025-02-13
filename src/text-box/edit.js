@@ -17,17 +17,9 @@ import {
 	BlockControls,
 	AlignmentToolbar,
 	InspectorControls,
+	PanelColorSettings,
+	ContrastChecker,
 } from '@wordpress/block-editor';
-
-import {
-	PanelBody,
-	TextControl,
-	TextareaControl,
-	ToggleControl,
-	AnglePickerControl,
-	ColorPicker,
-	ColorPalette,
-} from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -68,21 +60,29 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
+				<PanelColorSettings
 					title={ __( 'Color Settings', 'text-block' ) }
 					icon="admin-appearance"
 					initialOpen
+					disableCustomColors={ false }
+					colorSettings={ [
+						{
+							value: backgroundColor,
+							onChange: onBackgroundColorChange,
+							label: __( 'Background Color', 'text-block' ),
+						},
+						{
+							value: textColor,
+							onChange: onTextColorChange,
+							label: __( 'Text Color', 'text-block' ),
+						},
+					] }
 				>
-					<ColorPalette
-						colors={ [
-							{ color: '#f00' },
-							{ color: '#0f0' },
-							{ color: '#00f' },
-						] }
-						onChange={ onBackgroundColorChange }
-						value={ backgroundColor }
+					<ContrastChecker
+						textColor={ textColor }
+						backgroundColor={ backgroundColor }
 					/>
-				</PanelBody>
+				</PanelColorSettings>
 			</InspectorControls>
 			<BlockControls group="block">
 				<AlignmentToolbar
@@ -96,6 +96,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					className: `text-box-align-${ alignment }`,
 					style: {
 						backgroundColor,
+						color: textColor,
 					},
 				} ) }
 				placeholder={ __( 'Add some text', 'text-block' ) }

@@ -25,6 +25,7 @@ export default function save( { attributes } ) {
 				className: `text-box-align-${ alignment }`,
 				style: {
 					backgroundColor,
+					color: textColor,
 				},
 			} ) }
 			tagName="h4"
