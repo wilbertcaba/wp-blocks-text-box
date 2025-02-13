@@ -16,7 +16,18 @@ import {
 	RichText,
 	BlockControls,
 	AlignmentToolbar,
+	InspectorControls,
 } from '@wordpress/block-editor';
+
+import {
+	PanelBody,
+	TextControl,
+	TextareaControl,
+	ToggleControl,
+	AnglePickerControl,
+	ColorPicker,
+	ColorPalette,
+} from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -48,6 +59,48 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<>
+			<InspectorControls>
+				<PanelBody
+					title={ __( 'Color Settings', 'text-block' ) }
+					icon="admin-appearance"
+					initialOpen
+				>
+					<TextControl
+						label="Input Label"
+						value={ text }
+						onChange={ onChangeText }
+						help="Helpful text"
+					/>
+					<TextareaControl
+						label="Textarea Label"
+						value={ text }
+						onChange={ onChangeText }
+						help="Helpful text"
+					/>
+					<ToggleControl
+						label="Toggle Label"
+						checked={ true }
+						onChange={ ( value ) => console.log( value ) }
+					/>
+					<AnglePickerControl
+						label="Angle Picker Label"
+						value={ 90 }
+						onChange={ ( value ) => console.log( value ) }
+					/>
+					<ColorPicker
+						color="#f00"
+						onChangeComplete={ ( value ) => console.log( value ) }
+					/>
+					<ColorPalette
+						colors={ [
+							{ color: '#f00' },
+							{ color: '#0f0' },
+							{ color: '#00f' },
+						] }
+						onChange={ ( value ) => console.log( value ) }
+					/>
+				</PanelBody>
+			</InspectorControls>
 			<BlockControls group="block">
 				<AlignmentToolbar
 					onChange={ onChangeAlignment }
