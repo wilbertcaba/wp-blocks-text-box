@@ -47,7 +47,7 @@ import './editor.scss';
  */
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { text, alignment } = attributes;
+	const { text, alignment, backgroundColor, textColor } = attributes;
 
 	const onChangeText = ( newText ) => {
 		setAttributes( { text: newText } );
@@ -55,6 +55,14 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const onChangeAlignment = ( newAlignment ) => {
 		setAttributes( { alignment: newAlignment } );
+	};
+
+	const onBackgroundColorChange = ( newColor ) => {
+		setAttributes( { backgroundColor: newColor } );
+	};
+
+	const onTextColorChange = ( newColor ) => {
+		setAttributes( { textColor: newColor } );
 	};
 
 	return (
@@ -65,39 +73,14 @@ export default function Edit( { attributes, setAttributes } ) {
 					icon="admin-appearance"
 					initialOpen
 				>
-					<TextControl
-						label="Input Label"
-						value={ text }
-						onChange={ onChangeText }
-						help="Helpful text"
-					/>
-					<TextareaControl
-						label="Textarea Label"
-						value={ text }
-						onChange={ onChangeText }
-						help="Helpful text"
-					/>
-					<ToggleControl
-						label="Toggle Label"
-						checked={ true }
-						onChange={ ( value ) => console.log( value ) }
-					/>
-					<AnglePickerControl
-						label="Angle Picker Label"
-						value={ 90 }
-						onChange={ ( value ) => console.log( value ) }
-					/>
-					<ColorPicker
-						color="#f00"
-						onChangeComplete={ ( value ) => console.log( value ) }
-					/>
 					<ColorPalette
 						colors={ [
 							{ color: '#f00' },
 							{ color: '#0f0' },
 							{ color: '#00f' },
 						] }
-						onChange={ ( value ) => console.log( value ) }
+						onChange={ onBackgroundColorChange }
+						value={ backgroundColor }
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -111,6 +94,9 @@ export default function Edit( { attributes, setAttributes } ) {
 			<RichText
 				{ ...useBlockProps( {
 					className: `text-box-align-${ alignment }`,
+					style: {
+						backgroundColor,
+					},
 				} ) }
 				placeholder={ __( 'Add some text', 'text-block' ) }
 				tagName="h4"
